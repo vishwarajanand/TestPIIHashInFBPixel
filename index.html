@@ -14,6 +14,7 @@
 	<!-- PIXEL INIT CODE GOES HERE  -->
 	<!-- Facebook Pixel Code -->
 	<script>
+		const PIXEL_ID=351725288935559';
 		!function(f,b,e,v,n,t,s)
 		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -22,7 +23,7 @@
 			t.src=v;s=b.getElementsByTagName(e)[0];
 			s.parentNode.insertBefore(t,s)}(window, document,'script',
 				'https://connect.facebook.net/en_US/fbevents.js');
-			fbq('init', '351725288935559', {ph:'9988776655'}); //test phone no
+			fbq('init', PIXEL_ID);
 			fbq('track', 'PageView');
 		</script>
 		<noscript><img height="1" width="1" style="display:none"
@@ -64,13 +65,14 @@
 		const $pii_hash_input = document.getElementById('full_phone_no_hash');
 
 		const typeHandler = function(e) {
-			// console.log("Text changed to : " + e.target.value);
-			var hash = CryptoJS.SHA1(String(e.target.value));
-			$pii_hash_input.value = CryptoJS.enc.Hex.stringify(hash);
-			fbq('init', '351725288935559', {ph:e.target.value});
+			console.log("Text changed to : " + e.target.value);
+			var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
+			$pii_hash_input.value = new_hash_val;
+			console.log("New phone hash : " + new_hash_val);
+			fbq('init', PIXEL_ID, {ph:e.target.value});
 		}
 
-        $source.addEventListener('input', typeHandler) // register for oninput
+        $source.addEventListener('input', typeHandler) // register for input
         $source.addEventListener('propertychange', typeHandler) // for IE8
     </script>
     <script type="text/javascript">
