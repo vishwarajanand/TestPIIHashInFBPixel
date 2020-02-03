@@ -29,9 +29,9 @@
 						fbq('init', PIXEL_ID);
 					}
 					fbq('track', 'PageView');
-				</script>
-				<!-- End Facebook Pixel Code -->
-			}
+				}
+			</script>
+			<!-- End Facebook Pixel Code -->
 
 		</HEAD>
 
@@ -39,7 +39,7 @@
 
 			<H1>Pixel PII</H1>
 
-			<P> This page fires pixel events using phone number as PIIs. This should match with the SHA1 hash value with ud[ph] query string param in latest HTTPS GET call to https://www.facebook.com/tr</P>
+			<P> This webpage fires pixel events using phone number as PIIs. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
 			<B><I>Submit event with the following phone number:</I></B>
 
 
@@ -65,10 +65,10 @@
 			const $pii_hash_input = document.getElementById('full_phone_no_hash');
 
 			const typeHandler = function(e) {
-				console.log("Text changed to : " + e.target.value);
+				console.log("Phone changed to : " + e.target.value);
 				var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
 				$pii_hash_input.value = new_hash_val;
-				console.log("New phone hash : " + new_hash_val);
+				console.log("New phone hash ud[ph]: " + new_hash_val);
 				// fbq('init', PIXEL_ID, {ph:e.target.value});
 			}
 
@@ -78,13 +78,13 @@
 	    <script type="text/javascript">
 	    	const $submit = document.getElementById('btn_submit');
 	    	const submitHandler = function(e) {
-	    		e.preventDefault();
 	    		console.log("Fired Pixel Event");
 	    		fb_init($source.value);
 				//fbq event
 				fbq('trackCustom', 'custom_event');
+	    		e.preventDefault();
 			}
-	        $submit.addEventListener('onClick', submitHandler) // register for onClick
+	        $submit.addEventListener('click', submitHandler) // register for click
 	    </script>
 
 	</HTML>
