@@ -10,65 +10,85 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.js"></script>
 
-		<!-- PIXEL INIT CODE GOES HERE  -->
-		<!-- Facebook Pixel Code -->
 		<script>
-			const PIXEL_ID=351725288935559;
-			const fb_init = function(phone){
-				!function(f,b,e,v,n,t,s)
-				{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-					n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-					if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-					n.queue=[];t=b.createElement(e);t.async=!0;
-					t.src=v;s=b.getElementsByTagName(e)[0];
-					s.parentNode.insertBefore(t,s)}(window, document,'script',
-						'https://connect.facebook.net/en_US/fbevents.js');
-					if(phone){
-						fbq('init', PIXEL_ID, {ph:phone});
-					} else {
-						fbq('init', PIXEL_ID);
-					}
-					fbq('track', 'PageView');
-				}
-			</script>
-			<!-- End Facebook Pixel Code -->
 
-		</HEAD>
+			async function sha256(message) {
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder('utf-8').encode(message);                    
 
-		<BODY BGCOLOR="FFFFFF">
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
 
-			<H1>Pixel PII</H1>
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-			<P> This webpage fires pixel events using phone number as PIIs. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
-			<B><I>Submit event with the following phone number:</I></B>
+    // convert bytes to hex string                  
+    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+    return hashHex;
+}
+</script>
+
+<!-- PIXEL INIT CODE GOES HERE  -->
+<!-- Facebook Pixel Code -->
+<script>
+	const PIXEL_ID=351725288935559;
+	const fb_init = function(phone){
+		!function(f,b,e,v,n,t,s)
+		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+			if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+			n.queue=[];t=b.createElement(e);t.async=!0;
+			t.src=v;s=b.getElementsByTagName(e)[0];
+			s.parentNode.insertBefore(t,s)}(window, document,'script',
+				'https://connect.facebook.net/en_US/fbevents.js');
+			if(phone){
+				fbq('init', PIXEL_ID, {ph:phone});
+			} else {
+				fbq('init', PIXEL_ID);
+			}
+			fbq('track', 'PageView');
+		}
+	</script>
+	<!-- End Facebook Pixel Code -->
+
+</HEAD>
+
+<BODY BGCOLOR="FFFFFF">
+
+	<H1>Pixel PII</H1>
+
+	<P> This webpage fires pixel events using phone number as PIIs. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
+	<B><I>Submit event with the following phone number:</I></B>
 
 
-			<BR> 
+	<BR> 
 
-			<form action="">
-				First name: <input type="text" name="firstname" value="Mickey"><br>
-				Last name: <input type="text" name="lastname" value="Mouse"><br><br>
-				<input id="full_phone_no" type="tel" name="phone" placeholder="123456789"><br>
-				<input id="full_phone_no_hash" type="text" name="phone_hash" disabled><br>
-				<input id="btn_submit" type="submit" name="submit" value="Submit"><br><br>
-			</form>
-			<BR> 
-			<BR> 
-			Credits: 
-			<a href="https://vishwarajanand.com">https://vishwarajanand.com</a>
+	<form action="">
+		First name: <input type="text" name="firstname" value="Mickey"><br>
+		Last name: <input type="text" name="lastname" value="Mouse"><br><br>
+		<input id="full_phone_no" type="tel" name="phone" placeholder="123456789"><br>
+		<input id="full_phone_no_hash" type="text" name="phone_hash" disabled><br>
+		<input id="btn_submit" type="submit" name="submit" value="Submit"><br><br>
+	</form>
+	<BR> 
+	<BR> 
+	Credits: 
+	<a href="https://vishwarajanand.com">https://vishwarajanand.com</a>
 
-		</BODY>
+</BODY>
 
-		<!-- Fire PIXEL event on phone change -->
-		<script>
-			const $source = document.getElementById('full_phone_no');
-			const $pii_hash_input = document.getElementById('full_phone_no_hash');
+<!-- Fire PIXEL event on phone change -->
+<script>
+	const $source = document.getElementById('full_phone_no');
+	const $pii_hash_input = document.getElementById('full_phone_no_hash');
 
-			const typeHandler = function(e) {
-				console.log("Phone changed to : " + e.target.value);
-				var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
-				$pii_hash_input.value = new_hash_val;
-				console.log("New phone hash ud[ph]: " + new_hash_val);
+	const typeHandler = function(e) {
+		console.log("Phone changed to : " + e.target.value);
+		// var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
+		
+		var new_hash_val = await sha256($source.value);
+		$pii_hash_input.value = new_hash_val;
+		console.log("New phone hash ud[ph]: " + new_hash_val);
 				// fbq('init', PIXEL_ID, {ph:e.target.value});
 			}
 
@@ -79,10 +99,11 @@
 	    	const $submit = document.getElementById('btn_submit');
 	    	const submitHandler = function(e) {
 	    		console.log("Fired Pixel Event");
+
 	    		fb_init($source.value);
 				//fbq event
 				fbq('trackCustom', 'custom_event');
-	    		e.preventDefault();
+				e.preventDefault();
 			}
 	        $submit.addEventListener('click', submitHandler) // register for click
 	    </script>
