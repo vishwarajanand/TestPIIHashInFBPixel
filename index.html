@@ -32,7 +32,7 @@
 <!-- Facebook Pixel Code -->
 <script>
 	const PIXEL_ID=351725288935559;
-	const fb_init = function(phone){
+	const fb_init = async function(phone){
 		!function(f,b,e,v,n,t,s)
 		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -72,8 +72,8 @@
 	</form>
 	<BR> 
 	<BR> 
-	Credits: 
-	<a href="https://vishwarajanand.com">https://vishwarajanand.com</a>
+	Source: 
+	<a href="https://github.com/vishwarajanand/TestPIIHashInFBPixel">https://github.com/vishwarajanand/TestPIIHashInFBPixel</a>
 
 </BODY>
 
@@ -82,10 +82,10 @@
 	const $source = document.getElementById('full_phone_no');
 	const $pii_hash_input = document.getElementById('full_phone_no_hash');
 
-	const typeHandler = function(e) {
+	const typeHandler = async function(e) {
 		console.log("Phone changed to : " + e.target.value);
 		// var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
-		
+
 		var new_hash_val = await sha256($source.value);
 		$pii_hash_input.value = new_hash_val;
 		console.log("New phone hash ud[ph]: " + new_hash_val);
@@ -97,7 +97,7 @@
 	    </script>
 	    <script type="text/javascript">
 	    	const $submit = document.getElementById('btn_submit');
-	    	const submitHandler = function(e) {
+	    	const submitHandler = async function(e) {
 	    		console.log("Fired Pixel Event");
 
 	    		fb_init($source.value);
