@@ -47,6 +47,7 @@
 				fbq('init', PIXEL_ID);
 			}
 			fbq('track', 'PageView');
+			fbq('track', 'Phone',{'number':phone});
 		}
 	</script>
 	<!-- End Facebook Pixel Code -->
@@ -57,7 +58,7 @@
 
 	<H1>Pixel PII</H1>
 
-	<P> This webpage fires pixel events using phone number as PIIs. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
+	<P> This webpage fires pixel events to pixel id#351725288935559 using phone number as PIIs. Clone this repo to change the pixel id. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
 	<B><I>Submit event with the following phone number:</I></B>
 
 
