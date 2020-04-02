@@ -43,11 +43,11 @@
 				'https://connect.facebook.net/en_US/fbevents.js');
 			if(phone){
 				fbq('init', PIXEL_ID, {ph:phone});
+				fbq('track', 'Phone',{'number':phone});
 			} else {
 				fbq('init', PIXEL_ID);
+				fbq('track', 'PageView');
 			}
-			fbq('track', 'PageView');
-			fbq('track', 'Phone',{'number':phone});
 		}
 	</script>
 	<!-- End Facebook Pixel Code -->
@@ -103,7 +103,7 @@
 
 	    		fb_init($source.value);
 				//fbq event
-				fbq('trackCustom', 'custom_event');
+				// fbq('trackCustom', 'custom_event');
 				e.preventDefault();
 			}
 	        $submit.addEventListener('click', submitHandler) // register for click
