@@ -43,12 +43,11 @@
 				'https://connect.facebook.net/en_US/fbevents.js');
 			if(phone){
 				fbq('init', PIXEL_ID, {ph:phone});
-				// fbq('track', 'Phone',{'number':phone});
+				fbq('track', 'MAM_event',{'number':phone});
 			} else {
 				fbq('init', PIXEL_ID);
-				// fbq('track', 'PageView');
+				fbq('track', 'AAM_event');
 			}
-			fbq('track', 'Phone' /*,{'number':phone} */);
 		}
 	</script>
 	<!-- End Facebook Pixel Code -->
@@ -59,9 +58,8 @@
 
 	<H1>Pixel PII</H1>
 
-	<P> This webpage fires pixel events to pixel id#351725288935559 using phone number as PIIs. Clone this repo to change the pixel id. <br>This should match with the SHA1 hash value in ud[ph] query string param for latest HTTPS GET call to https://www.facebook.com/tr</P>
+	<P> This webpage fires pixel events to pixel id#351725288935559 using phone number as PIIs. Clone this repo to change the pixel id. <br>The exact SHA1 hash value is available in ud[ph] query string param for the HTTPS GET calls to https://www.facebook.com/tr <br>This hash value does not honor (auto detect) country code</P>
 	<B><I>Submit event with the following phone number:</I></B>
-
 
 	<BR> 
 
@@ -103,7 +101,7 @@
 	    		console.log("Fired Pixel Event");
 
 	    		fb_init($source.value);
-				//fbq event
+				// fbq event
 				// fbq('trackCustom', 'custom_event');
 				e.preventDefault();
 			}
