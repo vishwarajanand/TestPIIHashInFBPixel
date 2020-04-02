@@ -43,11 +43,12 @@
 				'https://connect.facebook.net/en_US/fbevents.js');
 			if(phone){
 				fbq('init', PIXEL_ID, {ph:phone});
-				fbq('track', 'Phone',{'number':phone});
+				// fbq('track', 'Phone',{'number':phone});
 			} else {
 				fbq('init', PIXEL_ID);
-				fbq('track', 'PageView');
+				// fbq('track', 'PageView');
 			}
+			fbq('track', 'Phone' /*,{'number':phone} */);
 		}
 	</script>
 	<!-- End Facebook Pixel Code -->
