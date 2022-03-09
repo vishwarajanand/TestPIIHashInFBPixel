@@ -1,111 +1,138 @@
-	<HTML>
+<HTML>
 
-	<HEAD>
+<HEAD>
 
-		<TITLE>Website for FB pixels</TITLE>
+  <TITLE>Website for FB pixels</TITLE>
 
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.js"></script>
+  <script type="text/javascript"
+          src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/hmac.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha1.js"></script>
 
-		<script>
+  <script>
 
-			async function sha256(message) {
-    // encode as UTF-8
-    const msgBuffer = new TextEncoder('utf-8').encode(message);                    
+        async function sha256(message) {
+          // encode as UTF-8
+          const msgBuffer = new TextEncoder('utf-8').encode(message);
 
-    // hash the message
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        // hash the message
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
 
-    // convert ArrayBuffer to Array
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
+        // convert ArrayBuffer to Array
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
 
-    // convert bytes to hex string                  
-    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
-    return hashHex;
-}
-</script>
+              // convert bytes to hex string
+              const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+              return hashHex;
+            }
+          </script>
 
-<!-- PIXEL INIT CODE GOES HERE  -->
-<!-- Facebook Pixel Code -->
-<script>
-	const PIXEL_ID=351725288935559;
-	const fb_init = async function(phone){
-		!function(f,b,e,v,n,t,s)
-		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-			n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-			if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-			n.queue=[];t=b.createElement(e);t.async=!0;
-			t.src=v;s=b.getElementsByTagName(e)[0];
-			s.parentNode.insertBefore(t,s)}(window, document,'script',
-				'https://connect.facebook.net/en_US/fbevents.js');
-			if(phone){
-				fbq('init', PIXEL_ID, {ph:phone});
-				fbq('track', 'MAM_event',{'number':phone});
-			} else {
-				fbq('init', PIXEL_ID);
-				fbq('track', 'AAM_event');
-			}
+  <!-- PIXEL INIT CODE GOES HERE  -->
+  <!-- Facebook Pixel Code -->
+  <script>
+        const PIXEL_ID = 351725288935559;
+        const fb_init = async function (phone, firstname, lastname {
+		!function(f, b, e, v, n, t, s) {
+          if (f.fbq) return; n = f.fbq = function () {
+            n.callMethod ?
+              n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          };
+          if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+          n.queue = []; t = b.createElement(e); t.async = !0;
+          t.src = v; s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s)
+        } (window, document, 'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+        if (phone) {
+          fbq('init', PIXEL_ID, { ph: phone, fn: firstname, ln: lastname });
+          fbq('track', 'MAM_event', { 'number': phone });
+        } else {
+          fbq('init', PIXEL_ID);
+          fbq('track', 'AAM_event');
+        }
 		}
-	</script>
-	<!-- End Facebook Pixel Code -->
+</script>
+<!-- End Facebook Pixel Code -->
 
 </HEAD>
 
 <BODY BGCOLOR="FFFFFF">
 
-	<H1>Pixel PII</H1>
+  <H1>Pixel PII</H1>
 
-	<P> This webpage fires pixel events to pixel id#351725288935559 using phone number as PIIs. Clone this repo to change the pixel id. <br>The exact SHA1 hash value is available in ud[ph] query string param for the HTTPS GET calls to https://www.facebook.com/tr <br>This hash value does not honor (auto detect) country code</P>
-	<B><I>Submit event with the following phone number:</I></B>
+  <P> This webpage fires pixel events to pixel id#351725288935559 using phone number as PIIs. Clone
+    this repo to change the pixel id. <br>The exact SHA1 hash value is available in ud[ph] query
+    string param for the HTTPS GET calls to https://www.facebook.com/tr <br>This hash value does not
+    honor (auto detect) country code</P>
+  <B><I>Submit event with the following phone number:</I></B>
 
-	<BR> 
+  <BR>
 
-	<form action="">
-		First name: <input type="text" name="firstname" value="Mickey"><br>
-		Last name: <input type="text" name="lastname" value="Mouse"><br><br>
-		<input id="full_phone_no" type="tel" name="phone" placeholder="123456789"><br>
-		<input id="full_phone_no_hash" type="text" name="phone_hash" disabled><br>
-		<input id="btn_submit" type="submit" name="submit" value="Submit"><br><br>
-	</form>
-	<BR> 
-	<BR> 
-	Source: 
-	<a href="https://github.com/vishwarajanand/TestPIIHashInFBPixel">https://github.com/vishwarajanand/TestPIIHashInFBPixel</a>
+  <form action="">
+    First name: <input type="text"
+           id="txt_firstname"
+           name="firstname"
+           value="Mickey"><br>
+    Last name: <input type="text"
+           id="txt_lastname"
+           name="lastname"
+           value="Mouse"><br><br>
+    <input id="full_phone_no"
+           type="tel"
+           name="phone"
+           placeholder="123456789"><br>
+    <input id="full_phone_no_hash"
+           type="text"
+           name="phone_hash"
+           disabled><br>
+    <input id="btn_submit"
+           type="submit"
+           name="submit"
+           value="Submit"><br><br>
+    </form>
+    <BR>
+    <BR>
+    Source:
+  <a
+     href="https://github.com/vishwarajanand/TestPIIHashInFBPixel">https://github.com/vishwarajanand/TestPIIHashInFBPixel</a>
 
 </BODY>
 
 <!-- Fire PIXEL event on phone change -->
 <script>
-	const $source = document.getElementById('full_phone_no');
-	const $pii_hash_input = document.getElementById('full_phone_no_hash');
+      const $firstname = document.getElementById('txt_firstname');
+      const $lastname = document.getElementById('txt_lastname');
+      const $source = document.getElementById('full_phone_no');
+      const $pii_hash_input = document.getElementById('full_phone_no_hash');
 
-	const typeHandler = async function(e) {
-		console.log("Phone changed to : " + e.target.value);
-		// var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
+      const typeHandler = async function (e) {
+        console.log("Phone changed to : " + e.target.value);
+    // var new_hash_val = CryptoJS.enc.Hex.stringify(CryptoJS.SHA1(String(e.target.value)));
 
-		var new_hash_val = await sha256($source.value);
-		$pii_hash_input.value = new_hash_val;
-		console.log("New phone hash ud[ph]: " + new_hash_val);
-				// fbq('init', PIXEL_ID, {ph:e.target.value});
-			}
+      var new_hash_val = await sha256($source.value);
+      $pii_hash_input.value = new_hash_val;
+      console.log("New phone hash ud[ph]: " + new_hash_val);
+      // fbq('init', PIXEL_ID, {ph:e.target.value});
+    }
 
-	        $source.addEventListener('input', typeHandler) // register for input
-	        $source.addEventListener('propertychange', typeHandler) // for IE8
-	    </script>
-	    <script type="text/javascript">
-	    	const $submit = document.getElementById('btn_submit');
-	    	const submitHandler = async function(e) {
-	    		console.log("Fired Pixel Event");
+      $source.addEventListener('input', typeHandler) // register for input
+      $source.addEventListener('propertychange', typeHandler) // for IE8
+    </script>
+  <script type="text/javascript">
+    const $submit = document.getElementById('btn_submit');
+      const submitHandler = async function (e) {
+        console.log("Fired Pixel Event");
 
-	    		fb_init($source.value);
-				// fbq event
-				// fbq('trackCustom', 'custom_event');
-				e.preventDefault();
-			}
-	        $submit.addEventListener('click', submitHandler) // register for click
-	    </script>
+            fb_init($source.value, $firstname.value, $lastname.value);
+            // fbq event
+            // fbq('trackCustom', 'custom_event');
+            e.preventDefault();
+          }
+          $submit.addEventListener('click', submitHandler) // register for click
+        </script>
 
-	</HTML>
+</HTML>
